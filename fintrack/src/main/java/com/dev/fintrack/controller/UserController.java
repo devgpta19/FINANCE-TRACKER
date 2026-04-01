@@ -3,6 +3,9 @@ package com.dev.fintrack.controller;
 import com.dev.fintrack.dto.user.UserResponse;
 import com.dev.fintrack.dto.user.UserStatusUpdateRequest;
 import com.dev.fintrack.service.UserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +35,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/status")
     public ResponseEntity<UserResponse> updateUserStatus(@PathVariable Long id,
-                                                         @RequestBody UserStatusUpdateRequest request) {
+                                                         @Valid @RequestBody UserStatusUpdateRequest request) {
         return ResponseEntity.ok(userService.updateUserStatus(id, request));
     }
 

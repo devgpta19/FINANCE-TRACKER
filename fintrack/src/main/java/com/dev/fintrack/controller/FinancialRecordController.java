@@ -3,6 +3,9 @@ package com.dev.fintrack.controller;
 import com.dev.fintrack.dto.record.FinancialRecordRequest;
 import com.dev.fintrack.dto.record.FinancialRecordResponse;
 import com.dev.fintrack.service.FinancialRecordService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +23,7 @@ public class FinancialRecordController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<FinancialRecordResponse> createRecord(@RequestBody FinancialRecordRequest request) {
+    public ResponseEntity<FinancialRecordResponse> createRecord(@Valid @RequestBody FinancialRecordRequest request) {
         return ResponseEntity.ok(recordService.createRecord(request));
     }
 
@@ -44,7 +47,7 @@ public class FinancialRecordController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<FinancialRecordResponse> updateRecord(@PathVariable Long id,
-                                                                @RequestBody FinancialRecordRequest request) {
+                                                                @Valid @RequestBody FinancialRecordRequest request) {
         return ResponseEntity.ok(recordService.updateRecord(id, request));
     }
 

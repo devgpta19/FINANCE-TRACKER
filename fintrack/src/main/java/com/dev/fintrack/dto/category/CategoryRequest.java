@@ -1,33 +1,38 @@
 package com.dev.fintrack.dto.category;
 
 import com.dev.fintrack.enums.RecordType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CategoryRequest {
 
-    private String name;
-    private RecordType type;
+	@NotBlank(message = "Category name is required")
+	private String name;
 
-    public CategoryRequest() {
-    }
+	@NotNull(message = "Category type is required")
+	private RecordType type;
 
-    public CategoryRequest(String name, RecordType type) {
-        this.name = name;
-        this.type = type;
-    }
+	public CategoryRequest() {
+	}
 
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
+	public CategoryRequest(String name, RecordType type) {
+		this.name = name;
+		this.type = type;
+	}
 
-    public RecordType getType() {
-        return type;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setType(RecordType type) {
-        this.type = type;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public RecordType getType() {
+		return type;
+	}
+
+	public void setType(RecordType type) {
+		this.type = type;
+	}
 }

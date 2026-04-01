@@ -1,16 +1,27 @@
 package com.dev.fintrack.dto.record;
 
 import com.dev.fintrack.enums.RecordType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class FinancialRecordRequest {
 
+    @NotNull(message = "Amount is required")
+    @Positive(message = "Amount must be greater than 0")
     private BigDecimal amount;
+
+    @NotNull(message = "Record type is required")
     private RecordType type;
+
+    @NotNull(message = "Category ID is required")
     private Long categoryId;
+
+    @NotNull(message = "Date is required")
     private LocalDate date;
+
     private String description;
 
     public FinancialRecordRequest() {
