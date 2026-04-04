@@ -7,11 +7,12 @@ import com.dev.fintrack.entity.FinancialRecord;
 import com.dev.fintrack.entity.User;
 import com.dev.fintrack.enums.RecordType;
 import com.dev.fintrack.exception.ResourceNotFoundException;
+import com.dev.fintrack.exception.UnauthorizedException;
 import com.dev.fintrack.repository.CategoryRepository;
 import com.dev.fintrack.repository.FinancialRecordRepository;
 import com.dev.fintrack.repository.UserRepository;
-import com.dev.fintrack.service.FinancialRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,15 +31,19 @@ public class FinancialRecordServiceImpl implements FinancialRecordService {
     @Autowired
     private UserRepository userRepository;
 
+    private User getCurrentUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
     @Override
     public FinancialRecordResponse createRecord(FinancialRecordRequest request) {
 
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
-        // For now assign Admin user (id = 1)
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = getCurrentUser();
 
         FinancialRecord record = new FinancialRecord();
         record.setAmount(request.getAmount());
@@ -55,7 +60,7 @@ public class FinancialRecordServiceImpl implements FinancialRecordService {
 
     @Override
     public List<FinancialRecordResponse> getAllRecords() {
-        return recordRepository.findAll()
+        return recordRepository.findByCreatedBy(getCurrentUser())
                 .stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
@@ -65,6 +70,11 @@ public class FinancialRecordServiceImpl implements FinancialRecordService {
     public FinancialRecordResponse getRecordById(Long id) {
         FinancialRecord record = recordRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Record not found"));
+        
+        if (!record.getCreatedBy().getId().equals(getCurrentUser().getId())) {
+             throw new UnauthorizedException("You do not have access to this record");
+        }
+
         return mapToResponse(record);
     }
 
@@ -72,6 +82,10 @@ public class FinancialRecordServiceImpl implements FinancialRecordService {
     public FinancialRecordResponse updateRecord(Long id, FinancialRecordRequest request) {
         FinancialRecord record = recordRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Record not found"));
+
+        if (!record.getCreatedBy().getId().equals(getCurrentUser().getId())) {
+             throw new UnauthorizedException("You do not have access to this record");
+        }
 
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
@@ -92,6 +106,10 @@ public class FinancialRecordServiceImpl implements FinancialRecordService {
         FinancialRecord record = recordRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Record not found"));
 
+        if (!record.getCreatedBy().getId().equals(getCurrentUser().getId())) {
+             throw new UnauthorizedException("You do not have access to this record");
+        }
+
         recordRepository.delete(record);
     }
 
@@ -100,18 +118,19 @@ public class FinancialRecordServiceImpl implements FinancialRecordService {
                                                        LocalDate startDate, LocalDate endDate) {
 
         List<FinancialRecord> records;
+        User user = getCurrentUser();
 
         if (type != null && startDate != null && endDate != null) {
-            records = recordRepository.findByTypeAndDateBetween(
-                    RecordType.valueOf(type), startDate, endDate);
+            records = recordRepository.findByCreatedByAndTypeAndDateBetween(
+                    user, RecordType.valueOf(type), startDate, endDate);
         } else if (type != null) {
-            records = recordRepository.findByType(RecordType.valueOf(type));
+            records = recordRepository.findByCreatedByAndType(user, RecordType.valueOf(type));
         } else if (categoryId != null) {
-            records = recordRepository.findByCategoryId(categoryId);
+            records = recordRepository.findByCreatedByAndCategoryId(user, categoryId);
         } else if (startDate != null && endDate != null) {
-            records = recordRepository.findByDateBetween(startDate, endDate);
+            records = recordRepository.findByCreatedByAndDateBetween(user, startDate, endDate);
         } else {
-            records = recordRepository.findAll();
+            records = recordRepository.findByCreatedBy(user);
         }
 
         return records.stream()

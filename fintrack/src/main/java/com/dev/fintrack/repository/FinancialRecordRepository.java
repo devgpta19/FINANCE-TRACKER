@@ -1,6 +1,7 @@
 package com.dev.fintrack.repository;
 
 import com.dev.fintrack.entity.FinancialRecord;
+import com.dev.fintrack.entity.User;
 import com.dev.fintrack.enums.RecordType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,11 +10,13 @@ import java.util.List;
 
 public interface FinancialRecordRepository extends JpaRepository<FinancialRecord, Long> {
 
-    List<FinancialRecord> findByType(RecordType type);
+    List<FinancialRecord> findByCreatedBy(User user);
 
-    List<FinancialRecord> findByDateBetween(LocalDate startDate, LocalDate endDate);
+    List<FinancialRecord> findByCreatedByAndType(User user, RecordType type);
 
-    List<FinancialRecord> findByCategoryId(Long categoryId);
+    List<FinancialRecord> findByCreatedByAndDateBetween(User user, LocalDate startDate, LocalDate endDate);
 
-    List<FinancialRecord> findByTypeAndDateBetween(RecordType type, LocalDate startDate, LocalDate endDate);
+    List<FinancialRecord> findByCreatedByAndCategoryId(User user, Long categoryId);
+
+    List<FinancialRecord> findByCreatedByAndTypeAndDateBetween(User user, RecordType type, LocalDate startDate, LocalDate endDate);
 }

@@ -27,7 +27,7 @@ public class FinancialRecordController {
         return ResponseEntity.ok(recordService.createRecord(request));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','ANALYST','VIEWER')")
+    @PreAuthorize("hasAnyRole('ADMIN','VIEWER')")
     @GetMapping
     public ResponseEntity<List<FinancialRecordResponse>> getRecords(
             @RequestParam(required = false) String type,
@@ -38,7 +38,7 @@ public class FinancialRecordController {
         return ResponseEntity.ok(recordService.filterRecords(type, categoryId, startDate, endDate));
     }
     
-    @PreAuthorize("hasAnyRole('ADMIN','ANALYST','VIEWER')")
+    @PreAuthorize("hasAnyRole('ADMIN','VIEWER')")
     @GetMapping("/{id}")
     public ResponseEntity<FinancialRecordResponse> getRecord(@PathVariable Long id) {
         return ResponseEntity.ok(recordService.getRecordById(id));

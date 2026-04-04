@@ -1,0 +1,23 @@
+# Finance Tracker Progress Log
+
+## Initial Setup
+- **Action**: Formalized the implementation plan for the React UI.
+- **Details**: Planned a React + Vite application using Material UI, custom CSS variables for light/dark mode, and Chart.js for dashboard metrics.
+
+## Step 1: Project Initialization
+- **Action**: Initialized Vite React application inside the `FinFront` directory.
+- **Details**: Standard `create-vite` setup using the React + JavaScript template.
+
+## Step 2: Dependencies and Structure
+- **Action**: Installed main library dependencies.
+- **Details**: Mounted `@mui/material`, `@emotion/react`, `@emotion/styled`, `@mui/icons-material`, `axios`, `react-router-dom`, `chart.js`, and `react-chartjs-2`.
+
+## Step 3: Frontend Implementation
+- **Action**: Built and integrated the following key components:
+  - `src/index.css` & `src/theme.js` (CSS variable configuration and MUI hook for Light/Dark themes).
+  - `src/api/apiClient.js` (Centralized Axios interceptor for JWT usage).
+  - `src/context/AuthContext.jsx` & `ThemeContext.jsx` (Global App state management).
+  - `src/pages/Login.jsx` & `Register.jsx` (Authentication screens).
+  - `src/pages/Dashboard.jsx` (Chart.js implementation fetching API data).
+  - `src/pages/Records.jsx` (List records and Form integration for `ADMIN` role).
+- **Details**: Confirmed Vite build successfully transpiled all changes.

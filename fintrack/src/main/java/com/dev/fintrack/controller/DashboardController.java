@@ -18,19 +18,19 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
-    @PreAuthorize("hasAnyRole('ADMIN','ANALYST','VIEWER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','VIEWER')")
     @GetMapping("/summary")
     public ResponseEntity<DashboardSummaryResponse> getSummary() {
         return ResponseEntity.ok(dashboardService.getDashboardSummary());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','ANALYST','VIEWER')")
+    @PreAuthorize("hasAnyRole('ADMIN','VIEWER')")
     @GetMapping("/category-summary")
     public ResponseEntity<List<CategorySummaryResponse>> getCategorySummary() {
         return ResponseEntity.ok(dashboardService.getCategorySummary());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','ANALYST','VIEWER')")
+    @PreAuthorize("hasAnyRole('ADMIN','VIEWER')")
     @GetMapping("/monthly-trends")
     public ResponseEntity<List<MonthlyTrendResponse>> getMonthlyTrends() {
         return ResponseEntity.ok(dashboardService.getMonthlyTrends());
