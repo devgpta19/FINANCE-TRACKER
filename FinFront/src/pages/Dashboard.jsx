@@ -8,6 +8,7 @@ import {
 import { Pie, Bar } from 'react-chartjs-2';
 import apiClient from '../api/apiClient';
 import { ThemeContext } from '../context/ThemeContext';
+import { CurrencyContext } from '../context/CurrencyContext';
 
 // Register ChartJS plugins
 ChartJS.register(
@@ -22,6 +23,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { mode } = useContext(ThemeContext);
+  const { currency } = useContext(CurrencyContext);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -136,7 +138,7 @@ const Dashboard = () => {
           </Box>
         </Box>
         <Typography variant="h3" fontWeight={800} sx={{ letterSpacing: '-1px' }}>
-          ${value?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+          {currency}{value?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
         </Typography>
       </CardContent>
     </Card>
@@ -172,8 +174,12 @@ const Dashboard = () => {
             title="Net Balance" 
             value={summary?.netBalance} 
             icon={<AccountBalanceWallet />} 
-            color={mode === 'dark' ? '#818cf8' : '#4f46e5'}
-            gradient="linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)"
+            color={summary?.netBalance < 0 
+              ? (mode === 'dark' ? '#fb7185' : '#f43f5e') 
+              : (mode === 'dark' ? '#818cf8' : '#4f46e5')}
+            gradient={summary?.netBalance < 0 
+              ? 'none' 
+              : 'linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)'}
             delayClass="animate-fade-in delay-300"
           />
         </Grid>

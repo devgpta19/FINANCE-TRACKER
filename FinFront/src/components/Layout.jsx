@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Box, Container } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton, Box, Container, TextField, MenuItem } from '@mui/material';
 import { Brightness4, Brightness7, Logout, Dashboard as DashIcon, ReceiptLong } from '@mui/icons-material';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
 import { AuthContext } from '../context/AuthContext';
+import { CurrencyContext } from '../context/CurrencyContext';
 
 const Layout = () => {
   const { mode, toggleTheme } = useContext(ThemeContext);
+  const { currency, setCurrency, currencyOptions } = useContext(CurrencyContext);
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,6 +73,26 @@ const Layout = () => {
               </Typography>
 
               {/* Controls */}
+              <TextField
+                select
+                size="small"
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                sx={{ 
+                  width: 80, 
+                  mr: 1,
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '12px',
+                    backgroundColor: 'rgba(150,150,150,0.1)',
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': { border: 'none' }
+                }}
+              >
+                {currencyOptions.map(opt => (
+                  <MenuItem key={opt.symbol} value={opt.symbol}>{opt.symbol}</MenuItem>
+                ))}
+              </TextField>
+
               <IconButton sx={{ ml: 1, backgroundColor: 'rgba(150,150,150,0.1)' }} onClick={toggleTheme} color="inherit" size="small">
                 {mode === 'dark' ? <Brightness7 fontSize="small" /> : <Brightness4 fontSize="small" />}
               </IconButton>

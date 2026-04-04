@@ -1,8 +1,11 @@
 package com.dev.fintrack.config;
 
 import com.dev.fintrack.entity.Role;
+import com.dev.fintrack.entity.Category;
 import com.dev.fintrack.enums.RoleName;
+import com.dev.fintrack.enums.RecordType;
 import com.dev.fintrack.repository.RoleRepository;
+import com.dev.fintrack.repository.CategoryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.context.annotation.Bean;
@@ -12,16 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class DataInitializer {
 
     @Bean
-    CommandLineRunner initRoles(RoleRepository roleRepository, JdbcTemplate jdbcTemplate) {
+    CommandLineRunner initDatabase(RoleRepository roleRepository, CategoryRepository categoryRepository) {
         return args -> {
-            // Clean up obsolete ANALYST data directly from DB to prevent enum mapping crashes
-            try {
-                jdbcTemplate.execute("DELETE FROM users WHERE role_id = (SELECT id FROM roles WHERE name = 'ANALYST')");
-                jdbcTemplate.execute("DELETE FROM roles WHERE name = 'ANALYST'");
-            } catch (Exception e) {
-                // Ignore if tables don't exist yet
-            }
-
             if (roleRepository.findByName(RoleName.ADMIN).isEmpty()) {
                 Role adminRole = new Role();
                 adminRole.setName(RoleName.ADMIN);
@@ -32,6 +27,20 @@ public class DataInitializer {
                 Role viewerRole = new Role();
                 viewerRole.setName(RoleName.VIEWER);
                 roleRepository.save(viewerRole);
+            }
+
+            // Seed global categories if empty
+            if (categoryRepository.count() == 0) {
+                categoryRepository.save(new Category(null, "Salary", RecordType.INCOME));
+                categoryRepository.save(new Category(null, "Investment", RecordType.INCOME));
+                categoryRepository.save(new Category(null, "Freelance", RecordType.INCOME));
+                
+                categoryRepository.save(new Category(null, "Food & Dining", RecordType.EXPENSE));
+                categoryRepository.save(new Category(null, "Housing & Rent", RecordType.EXPENSE));
+                categoryRepository.save(new Category(null, "Transportation", RecordType.EXPENSE));
+                categoryRepository.save(new Category(null, "Utilities", RecordType.EXPENSE));
+                categoryRepository.save(new Category(null, "Entertainment", RecordType.EXPENSE));
+                categoryRepository.save(new Category(null, "Health & Medical", RecordType.EXPENSE));
             }
         };
     }

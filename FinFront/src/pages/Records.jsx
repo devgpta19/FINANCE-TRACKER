@@ -7,6 +7,7 @@ import {
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import apiClient from '../api/apiClient';
 import { AuthContext } from '../context/AuthContext';
+import { CurrencyContext } from '../context/CurrencyContext';
 
 const Records = () => {
   const [records, setRecords] = useState([]);
@@ -22,6 +23,7 @@ const Records = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const { user } = useContext(AuthContext);
+  const { currency } = useContext(CurrencyContext);
   // Backend role might be 'ROLE_ADMIN' or 'ADMIN'
   const isAdmin = user?.role === 'ADMIN' || user?.role === 'ROLE_ADMIN';
 
@@ -156,7 +158,7 @@ const Records = () => {
                         fontWeight: 800,
                         color: record.type === 'INCOME' ? 'success.main' : 'error.main' 
                     }}>
-                    {record.type === 'INCOME' ? '+' : '-'}${record.amount.toFixed(2)}
+                    {record.type === 'INCOME' ? '+' : '-'}{currency}{record.amount.toFixed(2)}
                     </TableCell>
                     {isAdmin && (
                     <TableCell align="center">
