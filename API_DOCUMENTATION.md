@@ -39,9 +39,10 @@ The system enforces strict role-based access to ensure data security and integri
 - **Request Body**:
   ```json
   {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "strongPassword123"
+    "name": "Adminn",
+    "email": "admin@admin.admin",
+    "password": "admin123",
+    "role": "ADMIN"
   }
   ```
 - **Success Response** (200 OK):
@@ -50,7 +51,7 @@ The system enforces strict role-based access to ensure data security and integri
     "token": "eyJhbGci...",
     "message": "User registered successfully",
     "role": "ADMIN",
-    "email": "john@example.com"
+    "email": "admin@admin.admin"
   }
   ```
 
@@ -60,7 +61,7 @@ The system enforces strict role-based access to ensure data security and integri
 - **Request Body**:
   ```json
   {
-    "email": "john@example.com",
+    "email": "admin@admin.admin",
     "password": "strongPassword123"
   }
   ```
@@ -70,7 +71,7 @@ The system enforces strict role-based access to ensure data security and integri
     "token": "eyJhbGci...",
     "message": "Login successful",
     "role": "ADMIN",
-    "email": "john@example.com"
+    "email": "admin@admin.admin"
   }
   ```
 
