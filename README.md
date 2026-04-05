@@ -29,7 +29,7 @@ The backend is built with **Java 17** and **Spring Boot**, following a layered a
 #### 2. Financial Records (Multi-Tenant Isolation)
 - **Data Isolation**: Users only have access to records they created.
 - **Attributes**: Amount, Type (Income/Expense), Category, Date, and Description.
-- **Operations**: Full CRUD with server-side filtering (by type, date range, or category).
+- **Operations**: Full CRUD with **integrated frontend filtering** (by type, date range, or category) that leverages server-side logic.
 
 #### 3. Dashboard Analytics
 - **Aggregated Data**: Real-time calculation of Total Income, Total Expenses, and Net Balance.

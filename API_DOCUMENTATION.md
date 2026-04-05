@@ -121,11 +121,18 @@ The system enforces strict role-based access to ensure data security and integri
 #### **List & Filter Records**
 - **Endpoint**: `GET /api/records`
 - **Auth Required**: Yes (`ADMIN` or `VIEWER`)
+- **Description**: Returns all financial records for the authenticated user. Admins can view all records across the system, while Viewers see only their relevant data (or a general view based on system settings).
 - **Query Parameters**:
-  - `type` (Optional): `INCOME` or `EXPENSE`
-  - `categoryId` (Optional): ID of the category
-  - `startDate` (Optional): `YYYY-MM-DD`
-  - `endDate` (Optional): `YYYY-MM-DD`
+  | Parameter | Type | Required | Description |
+  | :--- | :--- | :--- | :--- |
+  | `type` | String | No | Filter by `INCOME` or `EXPENSE`. |
+  | `categoryId` | Long | No | Filter by a specific Category ID. |
+  | `startDate` | Date | No | Filter records from this date (`YYYY-MM-DD`). |
+  | `endDate` | Date | No | Filter records up to this date (`YYYY-MM-DD`). |
+
+- **Example Filtered URL**: 
+  `GET /api/records?type=EXPENSE&startDate=2024-01-01&endDate=2024-03-31`
+
 - **Success Response** (200 OK):
   ```json
   [
