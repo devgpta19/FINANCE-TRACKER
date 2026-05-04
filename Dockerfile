@@ -1,21 +1,21 @@
-# Stage 1: Build the application (Force fresh build)
-FROM openjdk:17-jdk-slim AS build
+# Stage 1: Build the application
+FROM eclipse-temurin:17-jdk AS build
 WORKDIR /app
 
-# Copy the entire backend directory to ensure we have mvnw and .mvn folder
+# Copy the entire backend directory
 COPY fintrack ./fintrack
 
 # Navigate to backend folder
 WORKDIR /app/fintrack
 
-# Add memory limits to Maven to prevent crashing on Render's free tier
+# Add memory limits to Maven
 ENV MAVEN_OPTS="-Xmx300m"
 
-# Ensure mvnw has execution permissions and build the jar
+# Build the jar
 RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
 # Stage 2: Run the application
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 # Copy the built jar file
@@ -24,6 +24,5 @@ COPY --from=build /app/fintrack/target/*.jar app.jar
 # Expose port
 EXPOSE 8080
 
-# Command to run the application with memory limits for the runtime
+# Run with memory limits
 ENTRYPOINT ["java", "-Xmx300m", "-jar", "app.jar"]
-
