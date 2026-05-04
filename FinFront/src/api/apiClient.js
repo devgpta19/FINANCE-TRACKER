@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const apiClient = axios.create({
   // Use the Render URL if available, otherwise fallback to localhost
-                                            //   https://finance-tracker-0327.onrender.com
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://finance-tracker-0327.onrender.com',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://finance-tracker-0327.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
