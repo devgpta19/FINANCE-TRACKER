@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080/api', // Default Spring Boot backend URL
+  // Use the Render URL if available, otherwise fallback to localhost
+                                            //   https://finance-tracker-0327.onrender.com
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://finance-tracker-0327.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
