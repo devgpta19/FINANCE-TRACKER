@@ -35,7 +35,11 @@ The backend is built with **Java 17** and **Spring Boot**, following a layered a
 - **Aggregated Data**: Real-time calculation of Total Income, Total Expenses, and Net Balance.
 - **Visual Insights**: Category-wise distribution and monthly spending trends.
 
-#### 4. Robust Validation & Error Handling
+#### 4. GenAI (Generative AI) Integration
+- **AI Financial Advisor**: An intelligent chatbot that provides context-aware financial advice.
+- **Natural Language Insights**: Users can ask questions about their spending patterns directly to the AI.
+
+#### 5. Robust Validation & Error Handling
 - **Input Validation**: Enforced at the API level via `jakarta.validation`.
 - **Global Exception Handling**: A centralized `@RestControllerAdvice` ensures consistent error responses and appropriate HTTP status codes.
 
@@ -43,9 +47,10 @@ The backend is built with **Java 17** and **Spring Boot**, following a layered a
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Spring Boot 3.4.1, Spring Security, Spring Data JPA, Hibernate, JJWT.
+- **Backend**: Spring Boot 3.4.1, Spring Security, Spring Data JPA, Hibernate, JJWT, Spring AI (Gemini).
 - **Database**: MySQL (Production-ready relational storage).
 - **Frontend**: React (Vite), MUI (Material UI), Chart.js, Axios.
+- **AI**: Google Gemini API via Spring AI.
 - **Language**: Java 17, JavaScript (ES6+).
 
 ---
@@ -83,6 +88,7 @@ The backend is built with **Java 17** and **Spring Boot**, following a layered a
 ### 2. Backend Setup
 1. Create a MySQL database named `fintrack_db`.
 2. Configure your credentials in `fintrack/src/main/resources/application.properties`.
+   - Ensure you add your `spring.ai.google.api-key` from [Google AI Studio](https://aistudio.google.com/).
 3. Run the application:
    ```bash
    cd fintrack

@@ -21,3 +21,11 @@
   - `src/pages/Dashboard.jsx` (Chart.js implementation fetching API data).
   - `src/pages/Records.jsx` (List records and Form integration for `ADMIN` role).
 - **Details**: Confirmed Vite build successfully transpiled all changes.
+24: 
+25: ## Step 4: GenAI Integration (Phase 1)
+26: - **Action**: Implemented AI Chat Assistant using Google Gemini.
+27: - **Details**:
+28:   - Added `spring-ai-google-ai-spring-boot-starter` to the Maven backend.
+29:   - Created `AiService` in Java to process natural language queries with context about the user's financial dashboard.
+30:   - Built a premium `AiAssistant` floating chat component in React with glassmorphism aesthetics.
+31:   - Integrated frontend and backend via `/api/ai/chat` endpoint.

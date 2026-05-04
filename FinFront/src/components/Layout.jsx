@@ -5,6 +5,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { ThemeContext } from '../context/ThemeContext';
 import { AuthContext } from '../context/AuthContext';
 import { CurrencyContext } from '../context/CurrencyContext';
+import AiAssistant from './AiAssistant';
 
 const Layout = () => {
   const { mode, toggleTheme } = useContext(ThemeContext);
@@ -111,6 +112,7 @@ const Layout = () => {
           <Outlet />
         </Container>
       </Box>
+      <AiAssistant />
     </Box>
   );
 };
