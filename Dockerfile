@@ -1,4 +1,4 @@
-# Stage 1: Build the application
+# Stage 1: Build the application (Force fresh build)
 FROM openjdk:17-jdk-slim AS build
 WORKDIR /app
 
